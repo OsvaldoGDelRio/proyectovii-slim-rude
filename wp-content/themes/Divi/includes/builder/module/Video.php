@@ -261,6 +261,7 @@ class ET_Builder_Module_Video extends ET_Builder_Module {
 		return $fields;
 	}
 
+
 	static function get_video( $args = array(), $conditional_tags = array(), $current_page = array() ) {
 		$defaults = array(
 			'src'      => '',
@@ -277,6 +278,9 @@ class ET_Builder_Module_Video extends ET_Builder_Module {
 
 		if ( false !== et_pb_check_oembed_provider( esc_url( $args['src'] ) ) ) {
 			$video_src = et_builder_get_oembed( esc_url( $args['src'] ) );
+		} elseif ( false !== et_pb_validate_youtube_url( esc_url( $args['src'] ) ) ) {
+			$args['src'] = et_pb_normalize_youtube_url( esc_url( $args['src'] ) );
+			$video_src   = et_builder_get_oembed( esc_url( $args['src'] ) );
 		} else {
 			$video_src = sprintf(
 				'

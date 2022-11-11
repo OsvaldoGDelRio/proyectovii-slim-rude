@@ -8,7 +8,7 @@
 
 if ( ! defined( 'ET_BUILDER_PRODUCT_VERSION' ) ) {
 	// Note, this will be updated automatically during grunt release task.
-	define( 'ET_BUILDER_PRODUCT_VERSION', '4.18.0' );
+	define( 'ET_BUILDER_PRODUCT_VERSION', '4.18.1' );
 }
 
 if ( ! defined( 'ET_BUILDER_VERSION' ) ) {
@@ -12304,7 +12304,7 @@ if ( ! function_exists( 'et_pb_get_value_unit' ) ) :
 
 		if ( substr( $value, ( 0 - $important_length ), $important_length ) === $important ) {
 			$value_length = $value_length - $important_length;
-			$value        = substr( $value, 0, $value_length ) . trim();
+			$value        = trim( substr( $value, 0, $value_length ) );
 		}
 
 		if ( in_array( substr( $value, -3, 3 ), $valid_three_chars_units, true ) ) {
@@ -13359,3 +13359,67 @@ add_filter(
 	10,
 	2
 );
+
+if ( ! function_exists( 'et_pb_get_youtube_url_regex' ) ) :
+	/**
+	 * Regex to match a YouTube URL from any known/common YouTube URL format.
+	 *
+	 * Expected YouTube URL Formats.
+	 * - https://www.youtube.com/watch?v=XXXX.
+	 * - https://www.youtube.com/embed/XXXX.
+	 * - https://youtu.be/XXXX.
+	 *
+	 * To check regex, see: https://regex101.com/r/4FbeMZ/1.
+	 *
+	 * @since 4.18.1
+	 *
+	 * @return string YouTube video URL regex.
+	 */
+	function et_pb_get_youtube_url_regex() {
+		return '/^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/i';
+	}
+endif;
+
+if ( ! function_exists( 'et_pb_normalize_youtube_url' ) ) :
+	/**
+	 * Normalize a YouTube URL from any known/common YouTube URL format.
+	 *
+	 * Convert YouTube URL into normalized form: https://www.youtube.com/watch?v=XXXX.
+	 * For https://www.youtube.com/watch?v=XXXX to check regex is https://regex101.com/r/B2qLJy/1.
+	 * For https://www.youtube.com/embed/XXXX to check regex is https://regex101.com/r/oZ3iNP/1.
+	 * For https://youtu.be/XXXX to check regex is https://regex101.com/r/5nqmhF/1.
+	 *
+	 * @param string $url youtube video url.
+	 *
+	 * @since 4.18.1
+	 *
+	 * @return string Normalized YouTube URL.
+	 */
+	function et_pb_normalize_youtube_url( $url ) {
+		preg_match( et_pb_get_youtube_url_regex(), esc_url( $url ), $youtube_embed_video );
+
+		return 'https://www.youtube.com/watch?v=' . $youtube_embed_video[1];
+	}
+endif;
+
+if ( ! function_exists( 'et_pb_validate_youtube_url' ) ) :
+	/**
+	 * Validate a YouTube URL from any known/common YouTube URL format.
+	 *
+	 * For https://www.youtube.com/watch?v=XXXX to check regex is https://regex101.com/r/B2qLJy/1.
+	 * For https://www.youtube.com/embed/XXXX to check regex is https://regex101.com/r/oZ3iNP/1.
+	 * For https://youtu.be/XXXX to check regex is https://regex101.com/r/5nqmhF/1.
+	 *
+	 * @param string $url youtube video url.
+	 *
+	 * @since 4.18.1
+	 *
+	 * @return bool Whether provided URL is a valid YouTube URL or not.
+	 */
+	function et_pb_validate_youtube_url( $url ) {
+		preg_match( et_pb_get_youtube_url_regex(), $url, $youtube_embed_video );
+
+		return is_array( $youtube_embed_video ) && ! empty( $youtube_embed_video );
+	}
+endif;
+

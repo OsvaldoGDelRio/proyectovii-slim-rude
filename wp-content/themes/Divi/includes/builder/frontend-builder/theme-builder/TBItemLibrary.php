@@ -2,7 +2,7 @@
 /**
  * Divi Theme Builder Item Library.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @package Builder
  */

@@ -1,3 +1,206 @@
+version 4.18.1 ( updated 10-27-2022 )
+- Introduced confirmation modal before user clear Divi Layout block content.
+- Fixed errors on Divi Layout block when opening Site Editor page.
+- VB Video Module Refused to Connect is Fixed.
+- Fixed a bug in the settings field mini modal where the max height was not calculated correctly.
+- Fixed a bug where default position on sections using section divider(s) was set to static instead of relative.
+- Added Cart Quantity option to the Menu and Fullwidth Menu modules.
+- Added compatibility with the YITH WooCommerce Discounts & Pricing plugin.
+- Enables copy/paste style via right-click and keyboard shortcuts in edit preset mode.
+- Fixed issue in theme builder where error message modal appears after importing template or set.
+- Removed unsupported Help button from Import Templates modal.
+- Fixed padding not removed from Login module without background.
+- Updated Divi Builder translation strings.
+- Introduced new filter to override Product Tour status from the client side.
+- Fixed audio module's progress handle being white when text is dark.
+- Fixed video module being unable to retrieve thumbnail from domain-restricted vimeo videos.
+- Fixed disappeared Split Testing module when switching between subjects via next or prev buttons.
+- Fixed PHP error regarding incorrect use of trim function.
+- Introduced processed shortcode as second parameter of et_required_module_assets filter.
+- Fixed borders to show up on Sections that have borders of 1 or 2px as well as Dividers on them.
+- Fixed issue where dropdown menu reappears after it closes if we move the cursor back to the coordinate where submenu was showing previously.
+- Fixed issue where sticky columns shrink sometimes if Equalize Column Heights option enabled.
+- Fixed a bug in Video Slider module which was causing video to disappear in some cases.
+- Fixed Download backup option in Import Templates modal for Cloud items.
+- Adding context menu with new actions to Existing pages tab.
+- Fixed incorrect position after scrolling to anchor if header has fixed sections with negative top offset.
+- Fixed a bug that occurred in the Visual Builder (Extra only) where users were unable to drag & drop modules when the Post Content module was used in the Body area.
+- Fixed missing margin for social media follow module last icon in RTL.
+- Fixed anchor scroll position in Chrome browser when navigating from different pages.
+- Added functionality to select a range of saved items on Shift + Click in the Divi Library modal.
+- Video Slider Module Tests are updated.
+- Fixed MailPoet subscribers not being added to lists when a Form has required custom fileds .
+- Updated Google Fonts list.
+- Introduced Private App Access Token as API Key replacement for HubSpot authentication.
+- Fixed a PHP error that may occur in some cases when responsive images are used.
+- Added new filter hook for WP_Filesystem connection arguments.
+- Improved i18n translations to better handle some special keywords from being translated.
+- Fixed Email Optin type error with Convertkit when PHP 8 is in use.
+- Fixed custom color scheme overriding bar counter color.
+- Fixed Customizer preview for Secondary Menu background color not working.
+- Fixed menu module dropdown items not aligning to the right.
+	* cloud/i18n/library.php
+	* core/components/api/email/ConvertKit.php
+	* core/components/api/email/HubSpot.php
+	* core/components/api/email/_MailPoet3.php
+	* core/components/cache/Directory.php
+	* core/functions.php
+	* core/json-data/google-fonts.json
+	* core/languages/ar.po
+	* core/languages/bg_BG.po
+	* core/languages/cs_CZ.po
+	* core/languages/da_DK.po
+	* core/languages/de_DE.po
+	* core/languages/el.po
+	* core/languages/en_US.po
+	* core/languages/es_ES.po
+	* core/languages/fi.po
+	* core/languages/fr_FR.po
+	* core/languages/he_IL.po
+	* core/languages/hu_HU.po
+	* core/languages/id_ID.po
+	* core/languages/it_IT.po
+	* core/languages/ja.po
+	* core/languages/ko_KR.po
+	* core/languages/ms_MY.po
+	* core/languages/nb_NO.po
+	* core/languages/nl_NL.po
+	* core/languages/pl_PL.po
+	* core/languages/pt_BR.po
+	* core/languages/ro_RO.po
+	* core/languages/ru_RU.po
+	* core/languages/sk_SK.po
+	* core/languages/sr_RS.po
+	* core/languages/sv_SE.po
+	* core/languages/th.po
+	* core/languages/tl.po
+	* core/languages/tr_TR.po
+	* core/languages/uk.po
+	* core/languages/vi.po
+	* core/languages/zh_CN.po
+	* core/ui/utils/property-resolver.js
+	* functions.php
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/core.php
+	* includes/builder/feature/BlockEditorIntegration.php
+	* includes/builder/feature/Library.php
+	* includes/builder/feature/dynamic-assets/assets/js/src/sticky-element.js
+	* includes/builder/feature/dynamic-assets/class-dynamic-assets.php
+	* includes/builder/feature/gutenberg/EditorTypography.php
+	* includes/builder/framework.php
+	* includes/builder/frontend-builder/bundle.js
+	* includes/builder/frontend-builder/i18n/generic.php
+	* includes/builder/functions.php
+	* includes/builder/languages/ar.po
+	* includes/builder/languages/bg_BG.po
+	* includes/builder/languages/cs_CZ.po
+	* includes/builder/languages/da_DK.po
+	* includes/builder/languages/de_DE.po
+	* includes/builder/languages/el.po
+	* includes/builder/languages/en_US.po
+	* includes/builder/languages/es_ES.po
+	* includes/builder/languages/et_builder-ar-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-bg_BG-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-cs_CZ-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-da_DK-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-de_DE-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-el-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-es_ES-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-fi-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-fr_FR-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-he_IL-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-hu_HU-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-id_ID-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-it_IT-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-ja-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-ko_KR-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-ms_MY-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-nb_NO-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-nl_NL-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-pl_PL-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-pt_BR-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-ro_RO-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-ru_RU-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-sk_SK-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-sr_RS-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-sv_SE-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-th-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-tl-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-tr_TR-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-uk-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-vi-et-builder-gutenberg.po
+	* includes/builder/languages/et_builder-zh_CN-et-builder-gutenberg.po
+	* includes/builder/languages/fi.po
+	* includes/builder/languages/fr_FR.po
+	* includes/builder/languages/he_IL.po
+	* includes/builder/languages/hu_HU.po
+	* includes/builder/languages/id_ID.po
+	* includes/builder/languages/it_IT.po
+	* includes/builder/languages/ja.po
+	* includes/builder/languages/ko_KR.po
+	* includes/builder/languages/ms_MY.po
+	* includes/builder/languages/nb_NO.po
+	* includes/builder/languages/nl_NL.po
+	* includes/builder/languages/pl_PL.po
+	* includes/builder/languages/pt_BR.po
+	* includes/builder/languages/ro_RO.po
+	* includes/builder/languages/ru_RU.po
+	* includes/builder/languages/sk_SK.po
+	* includes/builder/languages/sr_RS.po
+	* includes/builder/languages/sv_SE.po
+	* includes/builder/languages/th.po
+	* includes/builder/languages/tl.po
+	* includes/builder/languages/tr_TR.po
+	* includes/builder/languages/uk.po
+	* includes/builder/languages/vi.po
+	* includes/builder/languages/zh_CN.po
+	* includes/builder/module/BarCountersItem.php
+	* includes/builder/module/FullwidthMenu.php
+	* includes/builder/module/Login.php
+	* includes/builder/module/Menu.php
+	* includes/builder/module/Video.php
+	* includes/builder/module/VideoSliderItem.php
+	* includes/builder/module/field/Position.php
+	* includes/builder/plugin-compat/styles/yith-woocommerce-dynamic-pricing-and-discounts-premium.css
+	* includes/builder/plugin-compat/yith-woocommerce-dynamic-pricing-and-discounts-premium.php
+	* includes/builder/scripts/frontend/global-functions.js
+	* includes/builder/scripts/frontend/scripts-dynamic.js
+	* includes/builder/scripts/frontend/scripts.js
+	* includes/builder/scripts/utils/sticky.js
+	* js/src/theme-customizer.js
+	* lang/ar.po
+	* lang/bg_BG.po
+	* lang/cs_CZ.po
+	* lang/da_DK.po
+	* lang/de_DE.po
+	* lang/el.po
+	* lang/en_US.po
+	* lang/es_ES.po
+	* lang/fi.po
+	* lang/fr_FR.po
+	* lang/he_IL.po
+	* lang/hu_HU.po
+	* lang/id_ID.po
+	* lang/it_IT.po
+	* lang/ja.po
+	* lang/ko_KR.po
+	* lang/ms_MY.po
+	* lang/nb_NO.po
+	* lang/nl_NL.po
+	* lang/pl_PL.po
+	* lang/pt_BR.po
+	* lang/ro_RO.po
+	* lang/ru_RU.po
+	* lang/sk_SK.po
+	* lang/sr_RS.po
+	* lang/sv_SE.po
+	* lang/th.po
+	* lang/tl.po
+	* lang/tr_TR.po
+	* lang/uk.po
+	* lang/vi.po
+	* lang/zh_CN.po
+
 version 4.18 ( updated 08-10-2022 )
 - Introduced the Theme Builder Library including Divi Cloud support.
 - Fixed issues with Portability system when using Droploader in Visual Builder.

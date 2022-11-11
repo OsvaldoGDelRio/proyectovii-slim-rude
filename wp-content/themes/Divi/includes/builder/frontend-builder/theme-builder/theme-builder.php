@@ -1826,7 +1826,7 @@ function et_theme_builder_update_layout_title( $template ) {
 /**
  * Get post content module placeholder html.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @return string Placeholder html.
  */

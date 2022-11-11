@@ -214,8 +214,38 @@ function et_pb_video_get_oembed_thumbnail() {
 		add_filter( 'oembed_dataparse', 'et_pb_video_oembed_data_parse', 10, 3 );
 		// Save thumbnail.
 		$image_src = wp_oembed_get( $video_url );
+
+		// If the image src is empty try making a remote call with domain referer in case it's domain-restricted vimeo video.
+		// Ref: https://developer.vimeo.com/api/oembed/videos#embedding-videos-with-domain-privacy .
+		$is_vimeo_url = false !== strpos( $video_url, 'vimeo.com' );
+
+		if ( $is_vimeo_url && ! $image_src ) {
+			$vimeo_url      = add_query_arg( 'url', $video_url, 'https://vimeo.com/api/oembed.json' );
+			$vimeo_response = wp_remote_get(
+				$vimeo_url,
+				array(
+					'headers' => array(
+						'Referer' => get_site_url(),
+					),
+				)
+			);
+
+			if ( $vimeo_response ) {
+				$vimeo_response_body = wp_remote_retrieve_body( $vimeo_response );
+
+				if ( $vimeo_response_body ) {
+					$vimeo_response_body = (array) json_decode( $vimeo_response_body );
+
+					if ( ! empty( $vimeo_response_body['thumbnail_url'] ) ) {
+						$image_src = $vimeo_response_body['thumbnail_url'];
+					}
+				}
+			}
+		}
+
 		// Set back to normal.
 		remove_filter( 'oembed_dataparse', 'et_pb_video_oembed_data_parse', 10, 3 );
+
 		if ( '' === $image_src ) {
 			die( -1 );
 		}

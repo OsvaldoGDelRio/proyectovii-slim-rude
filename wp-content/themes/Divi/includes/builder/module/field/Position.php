@@ -476,10 +476,11 @@ class ET_Builder_Module_Field_Position extends ET_Builder_Module_Field_Base {
 				$important      = in_array( $value, array( 'fixed', 'absolute' ) ) || ( 'desktop' != $type ) ? ' !important' : $position_important;
 				$position_value = $value;
 				$is_parallax_on = 'on' === $this->get_value( $props, 'parallax' ) ? true : false;
+				$is_divider_set = isset( $props['top_divider_style'] ) || isset( $props['bottom_divider_style'] );
 
-				// When parallax is enabled on the element and the position value
+				// When parallax or divider is enabled on the element and the position value
 				// is set to none skip because it should always be relative.
-				if ( $is_parallax_on && 'none' === $value ) {
+				if ( 'none' === $value && ( $is_parallax_on || $is_divider_set ) ) {
 					continue;
 				}
 
@@ -618,13 +619,14 @@ class ET_Builder_Module_Field_Position extends ET_Builder_Module_Field_Base {
 
 					// add the adminbar height offset to avoid overflow of fixed elements.
 					$active_position = $this->get_value( $props, 'positioning', $position_default, $type, true );
+					$has_negative_position = strpos( $props['custom_css_main_element'], 'top: -' ) || strpos( $props['custom_css_main_element'], 'top:-' );
 					if ( 'top' === $property ) {
 						$admin_bar_declaration = "$property: $value";
 						if ( 'fixed' === $active_position ) {
 							$admin_bar_height      = 'phone' === $type ? '46px' : '32px';
 							$admin_bar_declaration = "$property: calc($value + $admin_bar_height);";
 						}
-						if ( 'desktop' !== $type || 'fixed' === $active_position ) {
+						if ( ! $has_negative_position && ( 'desktop' !== $type || 'fixed' === $active_position ) ) {
 							$el_style = array(
 								'selector'    => "body.logged-in.admin-bar $type_selector",
 								'declaration' => $admin_bar_declaration,

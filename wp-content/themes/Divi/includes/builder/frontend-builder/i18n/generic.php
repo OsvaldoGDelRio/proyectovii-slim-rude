@@ -7,6 +7,7 @@
 
 return array(
 	// Translators: %1$s: what is being copied.
+	'0 items'                              => esc_html__( '0 items', 'et_builder' ),
 	'%1$s Copy'                            => esc_html__( '%1$s Copy', 'et_builder' ),
 	'All Changes Saved'                    => esc_html__( 'All Changes Saved', 'et_builder' ),
 	'Body'                                 => et_builder_i18n( 'Body' ),

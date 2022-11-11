@@ -96,6 +96,12 @@ class ET_GB_Editor_Typography {
 		$styles .= $this->get_title_styles();
 
 		$post = $block_editor_context->post;
+
+		// If no post is found, return $error_settings early.
+		if ( empty( $post ) ) {
+			return $editor_settings;
+		}
+
 		if ( $post ) {
 			$tb_layouts = et_theme_builder_get_template_layouts( ET_Theme_Builder_Request::from_post( $post->ID ) );
 
@@ -151,7 +157,7 @@ class ET_GB_Editor_Typography {
 	 */
 	public function enqueue_block_typography_styles() {
 
-		if ( ! get_current_screen()->is_block_editor() ) {
+		if ( ! ( method_exists( get_current_screen(), 'is_block_editor' ) && get_current_screen()->is_block_editor() ) ) {
 			return;
 		}
 

@@ -2,7 +2,7 @@
 /**
  * Init `et_tb_item` taxonomy.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @package Builder
  */

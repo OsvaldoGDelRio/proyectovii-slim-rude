@@ -366,6 +366,10 @@ class ET_Builder_Module_Login extends ET_Builder_Module {
 			$this->add_classname( 'et_pb_with_focus_border' );
 		}
 
+		if ( 'on' !== $use_background_color ) {
+			$this->add_classname( 'et_pb_no_bg' );
+		}
+
 		if ( ! $multi_view->has_value( 'title' ) ) {
 			$this->add_classname( 'et_pb_newsletter_description_no_title' );
 		}

@@ -195,13 +195,21 @@ class ET_Core_API_Email_ConvertKit extends ET_Core_API_Email_Provider {
 		parent::fetch_subscriber_lists();
 
 		if ( ! $this->response->ERROR && ! empty( $this->response->DATA['forms'] ) ) {
-			$with_subscriber_counts      = $this->_get_subscriber_counts( $this->response->DATA['forms'] );
+			/**
+			 * We need to store `$forms` to avoid using mutated `$this->response->DATA['forms']` down the line.
+			 *
+			 * `$this->response->DATA['forms']` will be mutated to `NULL` in this code block since it is a shared state
+			 * and is used by other functions all over. This fixes the issue.
+			 *
+			 * @see: https://github.com/elegantthemes/Divi/issues/25296
+			 */
+			$forms                       = $this->response->DATA['forms'];
+			$with_subscriber_counts      = $this->_get_subscriber_counts( $forms );
 			$this->data['lists']         = $this->_process_subscriber_lists( $with_subscriber_counts );
 			$this->data['is_authorized'] = 'true';
-			$this->data['custom_fields'] = $this->_fetch_custom_fields( '', array_shift( $this->response->DATA['forms'] ) );
-
+			$this->data['custom_fields'] = $this->_fetch_custom_fields( '', array_shift( $forms ) );
 			$this->save_data();
-		} else if ( $this->response->ERROR ) {
+		} elseif ( $this->response->ERROR ) {
 			$result = $this->get_error_message();
 		}
 

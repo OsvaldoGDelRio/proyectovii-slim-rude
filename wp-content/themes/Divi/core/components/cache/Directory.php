@@ -117,19 +117,33 @@ class ET_Core_Cache_Directory {
 	protected function _initialize_wpfs() {
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 
-		if ( defined( 'ET_CORE_CACHE_DIR' ) && @WP_Filesystem( array(), ET_CORE_CACHE_DIR, true ) ) {
+		/**
+		 * Filters the WP_Filesystem args.
+		 *
+		 * @since ??
+		 *
+		 * @param  $wpfs_args  Arguments to use when initializing WP_Filesystem
+		 *
+		 * @return |array
+		 */
+		$wpfs_args = apply_filters( 'et_core_cache_wpfs_args', array() );
+
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- may fail due to the permissions denied error
+		if ( defined( 'ET_CORE_CACHE_DIR' ) && @WP_Filesystem( $wpfs_args, ET_CORE_CACHE_DIR, true ) ) {
 			// We can write to a user-specified directory
 			return $this->wpfs = $GLOBALS['wp_filesystem'];
 		}
 
-		if ( @WP_Filesystem( array(), false, true ) ) {
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- may fail due to the permissions denied error
+		if ( @WP_Filesystem( $wpfs_args, false, true ) ) {
 			// We can write to WP_CONTENT_DIR
 			return $this->wpfs = $GLOBALS['wp_filesystem'];
 		}
 
 		$uploads_dir = (object) wp_get_upload_dir();
 
-		if ( @WP_Filesystem( array(), $uploads_dir->basedir, true ) ) {
+		// phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- may fail due to the permissions denied error
+		if ( @WP_Filesystem( $wpfs_args, $uploads_dir->basedir, true ) ) {
 			// We can write to the uploads directory
 			return $this->wpfs = $GLOBALS['wp_filesystem'];
 		}

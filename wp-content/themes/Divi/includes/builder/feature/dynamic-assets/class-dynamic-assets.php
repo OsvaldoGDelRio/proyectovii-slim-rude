@@ -2020,10 +2020,15 @@ class ET_Dynamic_Assets {
 		 * This filter can be used to force loading of a certain Divi module in case their custom one relies on its styles.
 		 *
 		 * @since 4.10.0
+		 * @since ??
+		 *
+		 * @param array  $required_assets Custom required module slugs.
+		 * @param string $all_content     All content.
 		 */
 		$required_assets = apply_filters(
 			'et_required_module_assets',
-			array()
+			array(),
+			$this->_all_content
 		);
 
 		if ( $used_shortcodes ) {

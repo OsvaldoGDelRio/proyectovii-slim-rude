@@ -1510,13 +1510,13 @@ function et_get_attachment_size_by_url( $url, $default_size = 'full' ) {
 
 	$metadata = wp_get_attachment_metadata( $attachment_id );
 
-	if ( ! $metadata ) {
+	if ( ! is_array( $metadata ) ) {
 		return $default_size;
 	}
 
 	$size = $default_size;
 
-	if ( strpos( $url, $metadata['file'] ) === ( strlen( $url ) - strlen( $metadata['file'] ) ) ) {
+	if ( isset( $metadata['file'] ) && strpos( $url, $metadata['file'] ) === ( strlen( $url ) - strlen( $metadata['file'] ) ) ) {
 		$size = array( $metadata['width'], $metadata['height'] );
 	} elseif ( preg_match( '/-(\d+)x(\d+)\.(jpg|jpeg|gif|png|svg|webp)$/', $url, $match ) ) {
 		// Get the image width and height.

@@ -4,7 +4,7 @@
  *
  * @package Builder
  * @subpackage ThemeBuilder
- * @since ??
+ * @since 4.18.0
  */
 
 /**
@@ -38,7 +38,7 @@ class ET_Theme_Builder_Local_Library_Item {
 	/**
 	 * The contructor.
 	 *
-	 * @since ??
+	 * @since 4.18.0
 	 *
 	 * @param integer|null $item_id Iem post id.
 	 */
@@ -250,7 +250,7 @@ class ET_Theme_Builder_Local_Library_Item {
 	/**
 	 * Get the theme builder id.
 	 *
-	 * @since ??
+	 * @since 4.18.0
 	 *
 	 * @return int The theme builder id.
 	 */

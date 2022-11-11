@@ -708,7 +708,7 @@ class ET_Builder_Block_Editor_Integration {
 	public function init_hooks() {
 		global $pagenow;
 
-		$edit_page_names = array( 'post.php', 'post-new.php', 'site-editor.php' );
+		$edit_page_names = array( 'post.php', 'post-new.php' );
 		$is_editing_page = in_array( $pagenow, $edit_page_names, true );
 
 		if ( is_admin() ) {

@@ -11,7 +11,7 @@
  * Item refers to any cloud item, preset for example.
  * Item Items refers to any cloud item's items. Preset's items are templates.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param string $item_type Item type.
  * @param int    $item_id Item Id.
@@ -36,7 +36,7 @@ function et_theme_builder_library_get_item_items( $item_type, $item_id ) {
 /**
  * Get theme builder library item `use on` or `exclude from` data.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param int    $post_id Post ID.
  * @param string $key     Meta key (_et_use_on OR _et_exclude_from).
@@ -73,7 +73,7 @@ function et_theme_builder_library_get_item_use_or_exclude_data( $post_id, $key, 
 /**
  * Processes item taxonomies for inclusion in the theme builder library UI items data.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param WP_POST $post          Unprocessed item.
  * @param object  $item          Currently processing item.
@@ -136,7 +136,7 @@ function et_theme_builder_library_process_item_taxonomy( $post, $item, $index, &
 /**
  * Gets the terms list and processes it into desired format.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param string $term_name Term Name.
  *
@@ -165,7 +165,7 @@ function et_theme_builder_library_get_processed_terms( $term_name ) {
 /**
  * Get item description.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param integer $post_id             Post ID.
  * @param boolean $is_default_template Whether it is default template or not.
@@ -215,7 +215,7 @@ function et_theme_builder_library_get_item_description( $post_id, $is_default_te
 /**
  * Get item description.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param array $template Payload Template data.
  *
@@ -269,7 +269,7 @@ function et_theme_builder_library_get_item_description_from_payload( $template )
  *
  * @param string $item_type Item type.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @return array $data
  */
@@ -374,7 +374,7 @@ function et_theme_builder_library_get_library_items_data( $item_type ) {
 /**
  * Get all terms of an item and merge any newly passed IDs with the list.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param string $new_terms_list List of new terms.
  * @param array  $taxonomies Taxonomies.
@@ -406,7 +406,7 @@ function et_theme_builder_library_get_all_item_terms( $new_terms_list, $taxonomi
 /**
  * Insert the theme builder library item duplication post.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param string $title      Title.
  * @param string $content    Content.
@@ -439,7 +439,7 @@ function et_theme_builder_library_insert_post( $title, $content, $tax_input = ar
  * - Toggle Favorite status
  * - Duplicate
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param array $payload Array with the update details.
  *
@@ -779,7 +779,7 @@ function et_theme_builder_library_update_item_data( $payload ) {
 /**
  * Get the theme builder library temporary item info.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param array  $template       Template.
  * @param string $layout_type    Layout type.
@@ -823,7 +823,7 @@ function et_theme_builder_library_get_temp_item_info( $template, $layout_type, $
 /**
  * Save the theme builder library temporary cloud item.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param array $template_info  Template info.
  * @param array $layouts_detail Template layouts.
@@ -876,7 +876,7 @@ function et_theme_builder_library_save_temp_cloud_layout_data( $template_info, $
 /**
  * Save the theme builder library temporary item.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param integer $id      Template ID.
  * @param object  $content Template content.
@@ -915,7 +915,7 @@ function et_theme_builder_library_save_temp_local_layout_data( $id, $content, $g
 /**
  * Remove the theme builder library temporary item.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param array $data Template Ids.
  *
@@ -938,7 +938,7 @@ function et_theme_builder_library_remove_temp_layout_data( $data ) {
 /**
  * Get the theme builder library exported content.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param array $ids Items Id.
  *
@@ -1088,7 +1088,7 @@ function et_theme_builder_library_get_exported_content( $ids ) {
 /**
  * Gets Preset Items.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param int $item_id Item Id.
  *
@@ -1119,7 +1119,7 @@ function et_theme_builder_library_get_set_items_data( $item_id ) {
 /**
  * Update library taxonomy terms.
  *
- * @since ??
+ * @since 4.18.0
  *
  * @param array  $payload             Item payload.
  * @param string $et_library_taxonomy Taxonomy.

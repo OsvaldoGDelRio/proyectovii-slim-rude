@@ -5566,9 +5566,13 @@ function et_divi_add_customizer_css() {
 		<?php if ( $primary_nav_dropdown_line_color !== $accent_color ) { ?>
 			<?php echo $css( '.nav li ul' ); ?> { border-color: <?php echo esc_html( $primary_nav_dropdown_line_color ); ?>; }
 		<?php } ?>
-		<?php if ( $secondary_nav_bg !== '#2ea3f2' ) { ?>
-			#top-header,
-			#et-secondary-nav li ul { background-color: <?php echo esc_html( $secondary_nav_bg ); ?>; }
+		<?php if ( '#2ea3f2' === $secondary_nav_bg && '#2ea3f2' !== $accent_color ) { ?>
+			#page-container #top-header,
+			#et-secondary-nav li ul { background-color: <?php echo esc_html( $accent_color ) . ' !important'; ?>; }
+		<?php } ?>
+		<?php if ( '#2ea3f2' !== $secondary_nav_bg ) { ?>
+			.et_secondary_nav_enabled #page-container #top-header,
+			#et-secondary-nav li ul { background-color: <?php echo esc_html( $secondary_nav_bg ) . ' !important'; ?>; }
 		<?php } ?>
 		<?php if ( $secondary_nav_dropdown_bg !== $secondary_nav_bg ) { ?>
 			#et-secondary-nav li ul { background-color: <?php echo esc_html( $secondary_nav_dropdown_bg ); ?>; }

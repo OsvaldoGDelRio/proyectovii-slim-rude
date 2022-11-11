@@ -933,6 +933,7 @@ class ET_Builder_Library {
 
 						$layout->is_global     = false;
 						$layout->is_landing    = false;
+						$layout->is_favorite   = $this->layouts->is_favorite( $layout->id );
 						$layout->description   = '';
 						$layout->category_slug = $post_type;
 						// $layout_index is the array index, not the $post->ID
@@ -1194,6 +1195,7 @@ class ET_Builder_Library {
 				}
 
 				$result['savedShortcode'] = $post_content;
+				$result['shortcode']      = $post_content;
 				break;
 		}
 
@@ -1556,6 +1558,7 @@ class ET_Builder_Library {
 			case 'duplicate':
 			case 'duplicate_and_delete':
 			case 'duplicate_premade_item':
+			case 'save_existing_page':
 				$is_item_from_cloud = isset( $update_details['shortcode'] );
 				$title              = sanitize_text_field( $update_details['itemName'] );
 				$meta_input         = array();

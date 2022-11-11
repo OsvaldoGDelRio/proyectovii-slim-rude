@@ -376,6 +376,13 @@ class ET_Builder_Module_Bar_Counters_Item extends ET_Builder_Module {
 			'tablet'  => esc_html( $bar_background_color_tablet ),
 			'phone'   => esc_html( $bar_background_color_phone ),
 		);
+
+		foreach ( $bar_background_color_values as &$value ) {
+			if ( ! empty( $value ) ) {
+				$value = strtolower( et_builder_accent_color() ) === strtolower( $value ) ? $value : $value . ' !important';
+			}
+		}
+
 		et_pb_responsive_options()->generate_responsive_css( $bar_background_color_values, '%%order_class%% .et_pb_counter_amount', 'background-color', $render_slug, '', 'color' );
 		et_pb_responsive_options()->generate_responsive_css( $bar_background_color_values, '%%order_class%% .et_pb_counter_amount.overlay', 'color', $render_slug, '', 'color' );
 

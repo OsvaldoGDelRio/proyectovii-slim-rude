@@ -65,7 +65,17 @@ class ET_Core_API_Email_MailPoet3 extends ET_Core_API_Email_Provider {
 			return $args;
 		}
 
-		$fields = $args['custom_fields'];
+		$custom_fields = $args['custom_fields'];
+
+		$required_fields = $this->_get_required_custom_fields();
+
+		// Filter missing required custom field.
+		$missing_fields = array_diff( $required_fields, array_keys( $custom_fields ) );
+
+		// Fill-up missing required custom fields with dummy content and merge with available ones.
+		// This is required because of how MailPoet API validates the custom fields currently
+		// and there's no filters available to alter this behavior right now.
+		$fields = array_merge( $custom_fields, array_fill_keys( $missing_fields, 'n/a' ) );
 
 		unset( $args['custom_fields'] );
 
@@ -85,6 +95,25 @@ class ET_Core_API_Email_MailPoet3 extends ET_Core_API_Email_Provider {
 		}
 
 		return $args;
+	}
+
+	/**
+	 * Get required custom fields.
+	 *
+	 * @return $required_fields
+	 */
+	protected function _get_required_custom_fields() {
+		$fields          = \MailPoet\API\API::MP( 'v1' )->getSubscriberFields();
+		$required_fields = [];
+
+		foreach ( $fields as $field ) {
+			// Custom field ids have `cf_` prefix. Also we need only the required ones.
+			if ( false !== strpos( $field['id'], 'cf_' ) && $field['params']['required'] ) {
+				$required_fields[] = $field['id'];
+			}
+		}
+
+		return $required_fields;
 	}
 
 	/**

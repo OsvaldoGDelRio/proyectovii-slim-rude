@@ -2535,7 +2535,7 @@ class ET_Core_Portability {
 	/**
 	 * Returns Global Colors used for a given theme builder shortcode.
 	 *
-	 * @since ??
+	 * @since 4.18.0
 	 *
 	 * @param array $shortcode_object - The multidimensional array representing a page structure.
 	 *
@@ -2548,7 +2548,7 @@ class ET_Core_Portability {
 	/**
 	 * Returns Global Presets used for a given theme builder shortcode.
 	 *
-	 * @since ??
+	 * @since 4.18.0
 	 *
 	 * @param array $shortcode_object - The multidimensional array representing a page structure.
 	 *
@@ -2561,7 +2561,7 @@ class ET_Core_Portability {
 	/**
 	 * Returns images used for a given theme builder shortcode.
 	 *
-	 * @since ??
+	 * @since 4.18.0
 	 *
 	 * @param array $data - ID and Post content.
 	 *
@@ -2577,7 +2577,7 @@ class ET_Core_Portability {
 	/**
 	 * Returns thumbnails used for a given theme builder shortcode.
 	 *
-	 * @since ??
+	 * @since 4.18.0
 	 *
 	 * @param array $data - ID and Post content.
 	 *

@@ -8,6 +8,12 @@
  * @package ET\Core\API\Email
  */
 class ET_Core_API_Email_HubSpot extends ET_Core_API_Email_Provider {
+	/**
+	 * Access Token required error message.
+	 *
+	 * @var string
+	 */
+	public static $TOKEN_REQUIRED; // phpcs:ignore ET.Sniffs.ValidVariableName.PropertyNotSnakeCase -- Widely used on all email provider classes.
 
 	/**
 	 * @inheritDoc
@@ -44,6 +50,25 @@ class ET_Core_API_Email_HubSpot extends ET_Core_API_Email_Provider {
 	 */
 	public $slug = 'hubspot';
 
+	/**
+	 * ET_Core_API_Email_HubSpot constructor.
+	 *
+	 * @inheritDoc
+	 *
+	 * @param string $owner        {@see self::owner}.
+	 * @param string $account_name The name of the service account that the instance will provide access to.
+	 * @param string $api_key      The api key for the account. Optional (can be set after instantiation).
+	 */
+	public function __construct( $owner = '', $account_name = '', $api_key = '' ) {
+		parent::__construct( $owner, $account_name, $api_key );
+
+		if ( null === self::$TOKEN_REQUIRED ) { // phpcs:ignore ET.Sniffs.ValidVariableName.UsedPropertyNotSnakeCase -- Widely used on all email provider classes.
+			self::$TOKEN_REQUIRED = esc_html__( 'API request failed. Access Token is required.', 'et_core' ); // phpcs:ignore ET.Sniffs.ValidVariableName.UsedPropertyNotSnakeCase -- Widely used on all email provider classes.
+		}
+
+		$this->_maybe_set_custom_headers();
+	}
+
 	protected function _fetch_custom_fields( $list_id = '', $list = array() ) {
 		$this->response_data_key = false;
 
@@ -75,20 +100,77 @@ class ET_Core_API_Email_HubSpot extends ET_Core_API_Email_Provider {
 		return $fields;
 	}
 
+	/**
+	 * Whether current request needs API Key instead.
+	 *
+	 * It's needed to check existing API Key implementation when no Access Token presents.
+	 *
+	 * @since ??
+	 *
+	 * @return boolean API Key status.
+	 */
+	protected function _is_api_key_needed() {
+		// Bail early if Access Token exists.
+		if ( ! empty( $this->data['token'] ) ) {
+			return false;
+		}
+
+		// Otherwise check API Key.
+		return ! empty( $this->data['api_key'] );
+	}
+
+	/**
+	 * Get list add contact URL.
+	 *
+	 * @since 3.0.72
+	 * @since ?? Replaces hapikey query string with authentication on headers.
+	 *
+	 * @param string $list_id List ID.
+	 *
+	 * @return string URL for adding contact to list.
+	 */
 	protected function _get_list_add_contact_url( $list_id ) {
 		$url = "{$this->BASE_URL}/lists/{$list_id}/add";
 
-		return add_query_arg( 'hapikey', $this->data['api_key'], $url );
+		if ( $this->_is_api_key_needed() ) {
+			$url = add_query_arg( 'hapikey', $this->data['api_key'], $url );
+		}
+
+		return $url;
 	}
 
-	protected function _maybe_set_urls( $email = '' ) {
-		if ( empty( $this->data['api_key'] ) ) {
+	/**
+	 * Maybe need to set custom headers.
+	 *
+	 * @since ??
+	 */
+	protected function _maybe_set_custom_headers() {
+		if ( ! empty( $this->custom_headers ) ) {
 			return;
 		}
 
-		$this->FIELDS_URL    = add_query_arg( 'hapikey', $this->data['api_key'], $this->FIELDS_URL );
-		$this->LISTS_URL     = add_query_arg( 'hapikey', $this->data['api_key'], $this->LISTS_URL );
-		$this->SUBSCRIBE_URL = add_query_arg( 'hapikey', $this->data['api_key'], $this->SUBSCRIBE_URL );
+		if ( ! empty( $this->data['token'] ) ) {
+			$this->custom_headers = array(
+				'authorization' => 'Bearer ' . sanitize_text_field( $this->data['token'] ),
+			);
+		}
+	}
+
+	/**
+	 * Maybe set URLs.
+	 *
+	 * @since 3.0.72
+	 * @since ?? Replaces hapikey query string with access token headers.
+	 *
+	 * @param string $email Contact email.
+	 */
+	protected function _maybe_set_urls( $email = '' ) {
+		// Only use `hapikey` when Access Token doesn't exist and the API Key not empty.
+		if ( $this->_is_api_key_needed() ) {
+			$this->FIELDS_URL    = add_query_arg( 'hapikey', $this->data['api_key'], $this->FIELDS_URL ); // phpcs:ignore ET.Sniffs.ValidVariableName.UsedPropertyNotSnakeCase -- Widely used on all email provider classes.
+			$this->LISTS_URL     = add_query_arg( 'hapikey', $this->data['api_key'], $this->LISTS_URL ); // phpcs:ignore ET.Sniffs.ValidVariableName.UsedPropertyNotSnakeCase -- Widely used on all email provider classes.
+			$this->SUBSCRIBE_URL = add_query_arg( 'hapikey', $this->data['api_key'], $this->SUBSCRIBE_URL ); // phpcs:ignore ET.Sniffs.ValidVariableName.UsedPropertyNotSnakeCase -- Widely used on all email provider classes.
+		}
 
 		if ( $email ) {
 			$this->SUBSCRIBE_URL = str_replace( '@email@', rawurlencode( $email ), $this->SUBSCRIBE_URL );
@@ -136,11 +218,13 @@ class ET_Core_API_Email_HubSpot extends ET_Core_API_Email_Provider {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @since ?? Replaces api_key field with token.
 	 */
 	public function get_account_fields() {
 		return array(
-			'api_key' => array(
-				'label' => esc_html__( 'API Key', 'et_core' ),
+			'token' => array(
+				'label' => esc_html__( 'Access Token', 'et_core' ),
 			),
 		);
 	}
@@ -194,12 +278,15 @@ class ET_Core_API_Email_HubSpot extends ET_Core_API_Email_Provider {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @since ?? Replaces API Key usage with Access Token.
 	 */
 	public function fetch_subscriber_lists() {
-		if ( empty( $this->data['api_key'] ) ) {
-			return $this->API_KEY_REQUIRED;
+		if ( empty( $this->data['token'] ) && empty( $this->data['api_key'] ) ) {
+			return self::$TOKEN_REQUIRED; // phpcs:ignore ET.Sniffs.ValidVariableName.UsedPropertyNotSnakeCase -- Widely used on all email provider classes.
 		}
 
+		$this->_maybe_set_custom_headers();
 		$this->_maybe_set_urls();
 
 		/**
@@ -220,12 +307,15 @@ class ET_Core_API_Email_HubSpot extends ET_Core_API_Email_Provider {
 
 	/**
 	 * @inheritDoc
+	 *
+	 * @since ?? Replaces API Key usage with Access Token.
 	 */
 	public function subscribe( $args, $url = '' ) {
-		if ( empty( $this->data['api_key'] ) ) {
-			return $this->API_KEY_REQUIRED;
+		if ( empty( $this->data['token'] ) && empty( $this->data['api_key'] ) ) {
+			return self::$TOKEN_REQUIRED; // phpcs:ignore ET.Sniffs.ValidVariableName.UsedPropertyNotSnakeCase -- Widely used on all email provider classes.
 		}
 
+		$this->_maybe_set_custom_headers();
 		$this->_maybe_set_urls( $args['email'] );
 
 		$args = $this->_process_custom_fields( $args );

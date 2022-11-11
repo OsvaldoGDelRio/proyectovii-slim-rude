@@ -4647,18 +4647,21 @@ class ET_Builder_Element {
 					? $option_settings['text_color']['label']
 					: sprintf( $i18n['font']['color']['label'], $option_settings['label'] );
 
-				$additional_options[ "{$option_name}_text_color" ] = array(
-					'label'           => $label,
-					'description'     => sprintf( $i18n['font']['color']['description'], $option_settings['label'] ),
-					'type'            => 'color-alpha',
-					'option_category' => 'font_option',
-					'custom_color'    => true,
-					'tab_slug'        => $tab_slug,
-					'toggle_slug'     => $toggle_slug,
-					'sub_toggle'      => $sub_toggle,
-					'hover'           => 'tabs',
-					'mobile_options'  => true,
-					'sticky'          => true,
+				$additional_options[ "{$option_name}_text_color" ] = wp_parse_args(
+					self::$_->array_get( $option_settings, 'text_color', array() ),
+					array(
+						'label'           => $label,
+						'description'     => sprintf( $i18n['font']['color']['description'], $option_settings['label'] ),
+						'type'            => 'color-alpha',
+						'option_category' => 'font_option',
+						'custom_color'    => true,
+						'tab_slug'        => $tab_slug,
+						'toggle_slug'     => $toggle_slug,
+						'sub_toggle'      => $sub_toggle,
+						'hover'           => 'tabs',
+						'mobile_options'  => true,
+						'sticky'          => true,
+					)
 				);
 
 				// add reference to the obsolete color option if needed.
@@ -4814,15 +4817,18 @@ class ET_Builder_Element {
 			// Add text-shadow to font options.
 			if ( ! isset( $option_settings['hide_text_shadow'] ) || ! $option_settings['hide_text_shadow'] ) {
 				$option             = $this->text_shadow->get_fields(
-					array(
-						// Don't use an additional label for 'text' or else we'll end up with 'Text Text Shadow....'.
-						'label'           => 'text' === $option_name ? '' : $option_settings['label'],
-						'prefix'          => $option_name,
-						'option_category' => 'font_option',
-						'tab_slug'        => $tab_slug,
-						'toggle_slug'     => $toggle_slug,
-						'sub_toggle'      => $sub_toggle,
-						'mobile_options'  => true,
+					wp_parse_args(
+						self::$_->array_get( $option_settings, 'text_shadow', array() ),
+						array(
+							// Don't use an additional label for 'text' or else we'll end up with 'Text Text Shadow....'.
+							'label'           => 'text' === $option_name ? '' : $option_settings['label'],
+							'prefix'          => $option_name,
+							'option_category' => 'font_option',
+							'tab_slug'        => $tab_slug,
+							'toggle_slug'     => $toggle_slug,
+							'sub_toggle'      => $sub_toggle,
+							'mobile_options'  => true,
+						)
 					)
 				);
 				$additional_options = array_merge( $additional_options, $option );

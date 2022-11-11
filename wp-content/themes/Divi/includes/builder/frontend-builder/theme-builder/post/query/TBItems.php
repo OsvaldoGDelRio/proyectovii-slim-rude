@@ -2,7 +2,7 @@
 /**
  * Implement ET_Builder_Post_Query_TBItems to query `et_tb_item`.
  *
- * @since   ??
+ * @since 4.18.0
  *
  * @package Builder
  */
